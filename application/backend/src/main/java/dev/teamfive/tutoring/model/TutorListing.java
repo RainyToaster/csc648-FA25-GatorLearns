@@ -1,5 +1,7 @@
 package dev.teamfive.tutoring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 // Each instance of a TutorListing represents a row in the db table 'tutor_listing'
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "tutor_listing")
 public class TutorListing
@@ -46,6 +49,7 @@ public class TutorListing
     private String description;
 
     @Column(name = "video_sample_path")
+    @JsonProperty("videoSamplePath")
     private String tutoringVideoSamplePath;
 
     // Boolean but stored in mysql as an int: 0 or 1

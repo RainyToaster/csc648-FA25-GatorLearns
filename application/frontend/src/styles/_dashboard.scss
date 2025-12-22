@@ -1,24 +1,23 @@
 @use "./colors" as c;
 
 /* ===== Dashboard base ===== */
+:root {
+    --bg: #f6f7fb;
+    --ink: #111827;
+    --muted: #6b7280;
+    --card: #ffffff;
+    --border: #e5e7eb;
+}
 
 body {
-    background: c.$page-bg-light;
-    color: c.$color-text-main;
+    background: var(--bg);
+    color: var(--ink);
 }
 
 .db-page {
     padding: 24px;
-    min-height: 1vh;
-
 }
 
-.db-panel__header{
-    margin-top: 0;
-}
-
-
-/* main layout */
 .db-wrap {
     display: grid;
     margin-top: 0;
@@ -56,31 +55,93 @@ body {
     color: c.$color-text-main;
 }
 
-.db-sidebar__btn:hover {
-    background: lighten(c.$border-gray, 22%);
+.db-sidebar_btn:hover {
+    background: #e5e7eb;
 }
 
-.db-sidebar__btn.is-active {
-    background: c.$subtitle-text-gray;
-    color: #ffffff;
+.db-sidebar_btn.is-active {
+    background: #dfe3e8;
+}
 
+/* My Listings table */
+.db-table-wrap {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.db-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.db-table thead th {
+    text-align: left;
+    font-weight: 700;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+}
+
+.db-table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.db-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* status badges */
+.db-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: #f9fafb;
+}
+
+.db-badge.active {
+    color: #065f46;
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+}
+
+/* green */
+.db-badge.pending {
+    color: #92400e;
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+/* amber */
+
+
+
+.db-card h1,
+.db-card h2,
+.db-card h3,
+.db-card h4,
+.db-card h5,
+.db-card h6,
+.db-card p,
+.db-card span,
+.db-card div {
+    color: inherit;
 }
 
 /* ---- shared card + text reset ---- */
-
 .db-card {
-    background: c.$color-surface-white;
-    color: c.$color-text-main;
-    border: 1px solid c.$border-gray;
+    background: #fff;
+    color: #111827;
+    /* readable text on white */
+    border: 1px solid #e5e7eb;
     border-radius: 10px;
-}
-.db-card__title {
-    margin: 0px 0 8px;
-    font-weight: 700;
-    font-size : 1rem;
-}
-.db-card--messages {
-    margin-top : 24px;
+    padding: 16px;
 }
 
 .db-card h1,
@@ -100,7 +161,7 @@ body {
 }
 
 .db-muted {
-    color: c.$subtitle-text-gray;
+    color: var(--muted);
 }
 
 /* --- Dashboard mini stats pills --- */
@@ -108,10 +169,12 @@ body {
 .db-stats-mini {
     display: flex;
     gap: 24px;
-    justify-content: space-around; /* even spacing like the mock */
+    justify-content: space-around;
+    /* even spacing like the mock */
     align-items: stretch;
     margin: 8px 0 20px;
-    flex-wrap: wrap; /* stack on small screens */
+    flex-wrap: wrap;
+    /* stack on small screens */
 }
 
 .db-stat-mini {
@@ -119,7 +182,8 @@ body {
     border: 1px solid c.$border-gray;
     border-radius: 10px;
     padding: 10px 18px;
-    min-width: 170px; /* keep pills consistent */
+    min-width: 170px;
+    /* keep pills consistent */
     text-align: center;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
 }
@@ -157,8 +221,10 @@ body {
     background: lighten(c.$page-bg-light, 3%);
     padding: 0px 16px;
     height: 48px;
+}
 
-
+.db-panel+.db-panel {
+    margin-top: 16px;
 }
 
 .db-panel + .db-panel{
@@ -193,11 +259,10 @@ body {
 }
 
 /* --- Tabs --- */
-
 .db-tabs {
     display: flex;
-    gap: 0.5rem;
-    margin: 0.5rem 0 1rem;
+    gap: .5rem;
+    margin: .5rem 0 1rem;
 }
 
 .db-tab {
@@ -221,28 +286,30 @@ body {
     border-radius: 0.5rem;
     overflow: hidden;
     background: c.$color-surface-white;
-
-
 }
-
 
 .db-table__head,
 .db-table__row {
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr 1fr; /* overridden below per table type */
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    color: c.$color-text-main;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    /* Name | Course | Status | Time */
+    gap: .75rem;
+    padding: .75rem 1rem;
+    color: #111827;
 }
 
 .db-table__head {
     background: lighten(c.$page-bg-light, 4%);
     font-weight: 600;
+    color: #111827;
+    /* ensure header text is dark */
 }
 
 .db-table__row {
-    background: c.$color-surface-white;
-    border-top: 1px solid lighten(c.$border-gray, 18%);
+    background: #fff;
+    border-top: 1px solid #f1f5f9;
+    color: #111827;
+    /* ensure row text is dark */
     cursor: pointer;
 }
 
@@ -252,72 +319,290 @@ body {
     text-align: center;
 }
 
+.db-table__head {
+    background: #f3f4f6;
+    font-weight: 600;
+}
+
+.db-table__row {
+    border-top: 1px solid #f1f5f9;
+}
+
 /* ---- layouts (choose per table) ---- */
 
 /* Messages: Name | Course | Status | Time */
 .db-table--messages .db-table__head,
 .db-table--messages .db-table__row {
-    grid-template-columns: 2fr 2fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 0.4fr;
 }
 
 /* Listings: Course | Price | Requests | Status */
 .db-table--listings .db-table__head,
 .db-table--listings .db-table__row {
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.4fr;
 }
 
-.db-table__row--clickable{
+.db-table__row--clickable {
     cursor: pointer;
     transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
 }
 
-.db-table__row--clickable:hover{
+.db-table__row--clickable:hover {
     background: c.$page-bg-light;
-    box-shadow: 0 1px 3px rgba(15,23,42,0.08);
-
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
 }
-.db-table__course-name{
 
+.db-table__course-name {
     font-weight: 600;
-
 }
-.db-table__row--clickable:hover .db-table__course-name{
+
+.db-table__row--clickable:hover .db-table__course-name {
     color: #111827;
 
     text-decoration: underline;
     text-underline-offset: 2px;
 }
 
+/* Messages table hover effects */
+.db-table--messages .db-table__row--clickable:hover .col--name,
+.db-table--messages .db-table__row--clickable:hover .col--course {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.db-table__cell {
+    display: flex;
+    align-items: center;
+}
+
+.col {
+    display: flex;
+    align-items: center;
+}
+
+// .col--delete {
+//     display: flex;
+//     justify-content: center;
+// }
+
 /* ---- badges for Status column ---- */
 
 .badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.25rem 0.6rem;
-    font-size: 0.85rem;
+    gap: .4rem;
+    padding: .25rem .6rem;
+    font-size: .85rem;
     border-radius: 999px;
     border: 1px solid transparent;
     line-height: 1;
 }
 
-/* these three still use hex because your color file
-   doesn’t define success / warning tokens. You can
-   add them to _colors.scss later if you want. */
 .badge--success {
     background: #ecfdf5;
     color: #065f46;
     border-color: #a7f3d0;
 }
 
+/* Active */
 .badge--warning {
     background: #fffbeb;
     color: #92400e;
     border-color: #fde68a;
 }
 
+/* Pending */
 .badge--muted {
     background: #f3f4f6;
     color: #374151;
-    border-color: c.$border-gray;
+    border-color: #e5e7eb;
+}
+
+/* Default */
+
+/* optional: hover highlight */
+/*.db-table__row:hover { background:#fafafa; }*/
+
+.db-sidebar__btn:hover {
+    background: #e5e7eb;
+}
+
+.db-sidebar__btn.is-active {
+    background: #dfe3e8;
+}
+
+
+@media (max-width: 768px) {
+    .db-page {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 12px;
+    }
+
+    .db-wrap {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    .db-sidebar {
+        min-width: 0;
+        margin-right: 0;
+        padding: 10px;
+        border-radius: 12px;
+    }
+
+    .db-sidebar__list {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+    }
+
+    .db-sidebar__btn {
+        width: auto;
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 10px 12px;
+        border-radius: 999px;
+    }
+
+    .db-main {
+        padding: 12px;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .db-panel {
+        padding: 12px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        overflow: hidden;
+    }
+
+    .db-panel__header {
+        padding: 10px 12px;
+        margin: 0 0 8px 0;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .db-tabs {
+        gap: 8px;
+        margin: 8px 0 10px;
+        flex-wrap: wrap;
+    }
+
+    .db-tab {
+        padding: 8px 12px;
+        font-weight: 700;
+    }
+
+
+
+    .db-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .db-table th,
+    .db-table td {
+        white-space: nowrap;
+    }
+
+    .db-card,
+    .db-main {
+        max-width: 100%;
+    }
+}
+
+body.dark-mode {
+    .db-page {
+        background: transparent;
+    }
+
+    .db-sidebar,
+    .db-card,
+    .db-panel {
+        background: #202020;
+        border-color: #343434;
+        color: #e5e7eb;
+    }
+
+    .db-panel__header {
+        background: transparent;
+        color: #e5e7eb;
+    }
+
+    .db-sidebar__btn {
+        color: #e5e7eb;
+    }
+
+    .db-sidebar__btn:hover {
+        background: #212121;
+    }
+
+    .db-sidebar__btn.is-active {
+        background: #303030;
+        border: 1px solid #374151;
+    }
+
+    .db-tab {
+        background: #323232;
+        border-color: #374151;
+        color: #e5e7eb;
+    }
+
+    .db-tab.is-active {
+        background: #1e1e1e;
+    }
+
+    .db-table__head {
+        background: #181818;
+    }
+
+    .db-table__cell {
+        background: #2c2c2c;
+    }
+
+    .db-table thead th {
+        background: #181818;
+        border-color: #313131;
+        color: #e5e7eb;
+    }
+
+    .db-table tbody td {
+        border-color: #374151;
+        color: #e5e7eb;
+    }
+
+    .db-table__row {
+        background-color: #2c2c2c;
+    }
+
+    .db-sidebar__btn.is-active {
+        background: #262626;
+    }
+
+    /* Active */
+    .badge--warning {
+        background: #ffd94e;
+        color: #92400e;
+        border-color: #fde68a;
+    }
+
+    .badge--success {
+        background: #085226;
+        color: #6ef1cc;
+        border-color: #a7f3d0;
+    }
+
+    .btn-icon {
+        filter: invert(1) brightness(1.2);
+        opacity: 0.9;
+    }
+
+
 }

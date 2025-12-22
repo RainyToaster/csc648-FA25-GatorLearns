@@ -22,7 +22,13 @@ class TutorListingService {
         const res = await api.get("/api/listings/search", {
             params: { listingId: id },
         });
-        return res.data[0];;
+        return res.data[0];
+    }
+
+    getListingsForAccountId(id) {
+        return api.get("/api/listings/search", {
+            params: { accountId: id },
+        });
     }
 
     getListingsBySubjectSubstring(str) {
@@ -42,6 +48,54 @@ class TutorListingService {
 
     searchListings(params) {
         return api.get("/api/listings/search", { params });
+    }
+
+    createListing(data) {
+        return api.post("/api/listings/create", data, { withCredentials: true });
+    }
+
+    deleteListing(id) {
+        return api.delete(`/api/listings/delete/${id}`, { withCredentials: true });
+    }
+
+    getAllSubjects() {
+        return api.get("/api/subjects");
+    }
+
+    getCoursesBySubjectId(subjectId) {
+        return api.get(`/api/courses/bySubject/${subjectId}`);
+    }
+
+    /**
+     * Upload a resume file
+     * @param {File} file - The resume file to upload
+     * @returns {Promise} Promise that resolves with the file path
+     */
+    uploadResume(file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        return api.post("/api/upload/resume", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+        });
+    }
+
+    /**
+     * Upload a video file
+     * @param {File} file - The video file to upload
+     * @returns {Promise} Promise that resolves with the file path
+     */
+    uploadVideo(file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        return api.post("/api/upload/video", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+        });
     }
 }
 const tutorListingService = new TutorListingService();

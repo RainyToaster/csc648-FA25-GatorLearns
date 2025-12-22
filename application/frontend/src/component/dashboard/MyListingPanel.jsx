@@ -15,17 +15,51 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { mockListingService as TutorListingService } from "../../service/mockTutorListingService";
+import TutorListingService from "../../service/tutorListingService";
+import { useAuth } from "../AuthContext";
 
 export default function MyListingsPanel() {
     const [listings, setListings] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        TutorListingService.getListingsByAccount(1).then((res) => setListings(res.data));
-    }, []);
+    const { user, isLoggedIn } = useAuth();
 
-    console.log(listings);
+    const handleDelete = async (e, listingId) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (!window.confirm("Delete this listing?")) return;
+        console.log("Deleting listing", listingId);
+        try {
+            await TutorListingService.deleteListing(listingId);
+            setListings((prev) => prev.filter((l) => l.listingId !== listingId));
+        } catch (err) {
+            console.error("Failed to delete listing", err);
+            alert("Failed to delete listing.");
+        }
+    };
+
+    useEffect(() => {
+        if (isLoggedIn === null) return;
+        if (!user?.userId) {
+            setListings([]);
+            return;
+        }
+
+        (async () => {
+            try {
+                const res = await TutorListingService.getListingsForAccountId(user.userId);
+                const listings = res?.data;
+                if (!listings || (Array.isArray(listings) && listings.length === 0)) {
+                    setListings([]);
+                    return;
+                }
+                setListings(Array.isArray(listings) ? listings : [listings]);
+            } catch (err) {
+                console.error(err);
+                setListings([]);
+            }
+        })();
+    }, [user?.userId, isLoggedIn]);
 
     const badgeClass = (status) =>
         status === 1 ? "badge badge--success" : status === 0 ? "badge badge--warning" : "badge badge--muted";
@@ -57,6 +91,16 @@ export default function MyListingsPanel() {
                         <div className="db-table__cell">???</div>
                         <div className="db-table__cell">
                             <span className={badgeClass(row.live)}>{row.live === 1 ? "Active" : "Inactive"}</span>
+                        </div>
+                        <div className="db-table__cell">
+                            <button
+                                type="button"
+                                aria-label="Delete listing"
+                                className="btn btn-icon"
+                                onClick={(e) => handleDelete(e, row.listingId)}
+                            >
+                                <img src="images/trash.svg" alt="Delete" width="40" height="40" />
+                            </button>
                         </div>
                     </div>
                 ))}
