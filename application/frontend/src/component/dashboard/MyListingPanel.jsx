@@ -66,7 +66,9 @@ export default function MyListingsPanel() {
 
     return (
         <section className="db-card">
-            <h3 style={{ marginBottom: "0.75rem" }}>My Listings</h3>
+            <div className="db-panel__header">
+                <h3 >My Listings</h3>
+            </div>
 
             <div className="db-table db-table--listings">
                 <div className="db-table__head">
